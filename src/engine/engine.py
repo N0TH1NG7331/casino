@@ -120,11 +120,14 @@ class Engine:
                 if self.player_dice_value % 2:
                     self.set_win(1.7)
             case 'дуэль':
+                #TODO: Fix duel
                 if self.player_dice_value > self.dealer_dice_value:
                     self.set_win(1.8)
                     self.draw = False
-                elif self.player_dice_value == self.dealer_dice_value:
+                elif self.player_dice_value == self.dealer_dice_value or self.dealer_dice_value == self.player_dice_value:
                     self.draw = True
+                elif self.dealer_dice_value > self.player_dice_value:
+                    self.draw = False
 
     def get_win_basketball(self, bet_to: str):
         match bet_to:

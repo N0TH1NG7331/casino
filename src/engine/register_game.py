@@ -138,10 +138,7 @@ async def handler(message, bet: float, coin: str):
     
     if engine.draw == True:
         await bot.reply_to(engine.player_dice, "<b>Ничья! Переброс!</b> ♻️")
-        await engine.send_palyer_dice()
-        await engine.send_dealer_dice()
-        await sleep(4)
-        
+ 
         if engine.draw == True:
             while True:
                 if engine.draw == False:
