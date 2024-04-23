@@ -86,13 +86,11 @@ def calc_win(engine: Engine, bet_name: str, emoji_name: str):
             engine.get_win_casino(bet_name)
 
 async def handler(message, bet: float, coin: str):
-    print("[DEBUG] Im in register_game -> handler.py")
     database = DataBase()
     database.open()
     data = database.find_user_by_id(message.from_user.id)
     database.close()
     
-    print("[DEBUG] try to call generate_payment")
     success_pay = await generate_payment(message, data, bet, coin)
     
     if success_pay == False:
@@ -177,16 +175,20 @@ async def handler(message, bet: float, coin: str):
                 for admin_id in ADMIN_IDS:
                     await bot.send_message(admin_id, f"""
 ❗️ <b>Ошибка создать чек для выплаты</b> ❗️
-👤 <b>Игрок:</b> <code>{message.from_user.id}</code> {f'<code>{message.from_user.first_name}</code>' if not message.from_user.username else message.from_user.username}
+👤 <b>Игрок:</b> <code>{message.from_user.id}</code> {f'<code>{message.from_user.first_name}</code>' if not message.from_user.username else '@' + message.from_user.username}
 💰 <b>Сумма вывода:</b> <code>{money}</code>
 💸 <b>Доступный баланс</b> <code>{balance["result"][0]["available"]} USDT | {balance["result"][1]["available"]} TON</code>💲
 """)
                 await bot.reply_to(engine.player_dice, "Ошибка, недостаточно средств на балансе")
+                database.open()
                 database.reset_pay(message.from_user.id)
+                database.close()
                 return
             else:
                 await bot.reply_to(engine.player_dice, "Ошибка " + check['error']['name'])
+                database.open()
                 database.reset_pay(message.from_user.id)
+                database.close()
                 return
             
         markup = InlineKeyboardMarkup()
@@ -195,7 +197,7 @@ async def handler(message, bet: float, coin: str):
             await bot.send_photo(CHANNAL_ID, photo,
                 f"""🎉 <b>Поздравляем, вы выиграли! {money}$ ({round(float(money * USDT_RUB), 2)}₽)</b>
 <blockquote>Делай ставку ещё раз! Кто знает на чьей стороне будет удача в этот раз!</blockquote>""",
-                                 reply_to_message_id=engine.player_dice.id, reply_markup=markup)
+                                 reply_to_message_id=engine.player_dice.id)
         # await bot.reply_to(engine.player_dice,
         #                    f"<b>Победа!</b>\n<blockquote>Поздравляем вы выиграли: {str(money)}! Испытай удачу ещё раз!</blockquote>", reply_markup=markup)
         

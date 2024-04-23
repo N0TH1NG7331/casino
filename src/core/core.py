@@ -181,6 +181,7 @@ async def setup():
     configs.BOT.register_callback_query_handler(select_coin.callback, func=lambda call: call.data == "callback__cube-even")
     configs.BOT.register_callback_query_handler(select_coin.callback, func=lambda call: call.data == "callback__cube-odd")
     configs.BOT.register_callback_query_handler(select_coin.callback, func=lambda call: call.data == "callback__cube-duel")
+    configs.BOT.register_callback_query_handler(select_coin.callback, func=lambda call: call.data == "callback__cube-plinko")
 
     configs.BOT.register_callback_query_handler(select_coin.callback, func=lambda call: call.data == "callback__bf-hit")
     configs.BOT.register_callback_query_handler(select_coin.callback, func=lambda call: call.data == "callback__bf-miss")

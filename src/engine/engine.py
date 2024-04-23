@@ -12,6 +12,8 @@ def transform_bet(text):
             v = "чёт"
         case "odd":
             v = "нечет"
+        case "plinko":
+            v = "плинко"
 
         #Баскетбол & Футбол & Дартс
         case "hit":
@@ -128,6 +130,38 @@ class Engine:
                     self.draw = True
                 elif self.dealer_dice_value > self.player_dice_value:
                     self.draw = False
+            case 'плинко':
+                WINS_VALUE = [
+                    [1, False, 0],
+                    [2, True, 0.3],
+                    [3, True, 0.7],
+                    [4, True, 1.2],
+                    [5, True, 1.4],
+                    [6, True, 1.7]
+                ]
+
+                if self.player_dice_value == 1:
+                    return
+
+
+                index_row = self.player_dice_value - 1
+                is_win = WINS_VALUE[index_row][1]
+                print(self.player_dice_value, WINS_VALUE[index_row][1], WINS_VALUE[index_row][2])
+                
+
+                self.set_win(WINS_VALUE[index_row][2])
+
+                # match self.player_dice_value:
+                #     case 2:
+                #         self.set_win(0.3)
+
+                # for row in WINS_VALUE:
+                #     value, win, multi = row[0], row[1], row[2]
+
+                #     if value == self.player_dice_value:
+                #         if win == False:
+                #             break
+                #         self.set_win(multi)
 
     def get_win_basketball(self, bet_to: str):
         match bet_to:

@@ -8,7 +8,8 @@ def cube_bet_keyboards():
                InlineKeyboardButton("📉 Меньше", callback_data="callback__cube-less"))
     markup.row(InlineKeyboardButton("👍 Чёт", callback_data="callback__cube-even"),
                InlineKeyboardButton("👎 Нечет", callback_data="callback__cube-odd"))
-    markup.row(InlineKeyboardButton("⚔️ Дуэль", callback_data="callback__cube-duel"))
+    markup.row(InlineKeyboardButton("⚔️ Дуэль", callback_data="callback__cube-duel"),
+               InlineKeyboardButton("🎱Плинко", callback_data="callback__cube-plinko"))
     markup.row(InlineKeyboardButton("🔙 Назад", callback_data="callback__start_game"))
 
     return markup
